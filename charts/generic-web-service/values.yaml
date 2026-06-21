@@ -8,6 +8,14 @@ image:
 
 containerPort: 80
 
+command: []
+# 示例启动命令覆盖：
+# command: ["uvicorn"]
+
+args: []
+# 示例启动参数覆盖：
+# args: ["main:app", "--host", "0.0.0.0", "--port", "8000"]
+
 env: []
 # 示例环境变量注入：
 # env:
