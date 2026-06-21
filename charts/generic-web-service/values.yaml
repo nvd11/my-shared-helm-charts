@@ -38,9 +38,10 @@ service:
   type: ClusterIP
   port: 80
 
-ingress:
+route:
   enabled: false
-  className: kong-k8s
-  paths:
-    - path: /
-      pathType: Prefix
+  parentGateway: kong-main-gateway
+  parentGatewayNamespace: default
+  path: /
+  pathType: PathPrefix
+  stripPath: true # 🎯 默认开启前缀剥离，完美替代旧版 Ingress Annotation
