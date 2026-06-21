@@ -1,0 +1,38 @@
+# 默认基础参考参数 (values.yaml)
+replicaCount: 1
+
+image:
+  repository: nginx
+  tag: stable
+  pullPolicy: IfNotPresent
+
+containerPort: 80
+
+env: []
+# 示例环境变量注入：
+# env:
+#   - name: APP_ENV
+#     value: dev
+
+livenessProbe:
+  enabled: true
+  path: /
+  initialDelaySeconds: 15
+  periodSeconds: 20
+
+readinessProbe:
+  enabled: true
+  path: /
+  initialDelaySeconds: 15
+  periodSeconds: 20
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: kong-k8s
+  paths:
+    - path: /
+      pathType: Prefix
