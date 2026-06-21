@@ -16,14 +16,6 @@ spec:
     - path:
         type: {{ .Values.route.pathType }}
         value: {{ .Values.route.path }}
-    {{- if .Values.route.stripPath }}
-    filters:
-    - type: URLRewrite
-      urlRewrite:
-        path:
-          type: ReplacePrefixMatch
-          replacePrefixMatch: /
-    {{- end }}
     backendRefs:
     - name: {{ .Release.Name }}
       port: {{ .Values.service.port }}

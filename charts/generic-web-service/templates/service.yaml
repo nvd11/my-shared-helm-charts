@@ -4,6 +4,10 @@ metadata:
   name: {{ .Release.Name }}
   labels:
     app: {{ .Release.Name }}
+  {{- if and .Values.route .Values.route.stripPath }}
+  annotations:
+    konghq.com/strip-path: "true" # 🎯 退回 Kong 官方最成熟、最稳定的注解模式来实现路径剥离
+  {{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:
