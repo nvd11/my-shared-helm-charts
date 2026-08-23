@@ -1,0 +1,73 @@
+replicaCount: 1
+
+image:
+  repository: nginx
+  tag: stable
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+containerPort: 80
+command: []
+args: []
+
+env: []
+envFrom: []
+
+configMap:
+  enabled: false
+  name: ""
+  data: {}
+
+secret:
+  name: ""
+
+volumes: []
+volumeMounts: []
+
+resources: {}
+securityContext: {}
+podSecurityContext: {}
+nodeSelector: {}
+affinity: {}
+tolerations: []
+
+livenessProbe:
+  enabled: true
+  path: /
+  port: http
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  enabled: true
+  path: /
+  port: http
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+service:
+  type: ClusterIP
+  port: 80
+  annotations: {}
+
+route:
+  enabled: false
+  parentGateway: kong-main-gateway
+  parentGatewayNamespace: default
+  path: /
+  pathType: PathPrefix
+
+externalSecret:
+  enabled: false
+  refreshInterval: 1h
+  secretStoreRef:
+    name: ""
+    kind: SecretStore
+  target:
+    name: ""
+    creationPolicy: Owner
+  data: []
