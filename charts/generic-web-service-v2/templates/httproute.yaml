@@ -25,3 +25,37 @@ spec:
         - name: {{ include "generic-web-service-v2.fullname" . }}
           port: {{ .Values.service.port }}
 {{- end }}
+{{- if .Values.extraRoutes }}
+{{- range $name, $route := .Values.extraRoutes }}
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ include "generic-web-service-v2.fullname" $ }}-{{ $name }}
+  labels:
+    app.kubernetes.io/name: {{ include "generic-web-service-v2.name" $ }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+  {{- with $route.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  parentRefs:
+    - name: {{ $route.parentGateway | default $.Values.route.parentGateway }}
+      {{- with ($route.parentGatewayNamespace | default $.Values.route.parentGatewayNamespace) }}
+      namespace: {{ . }}
+      {{- end }}
+  rules:
+    {{- range $rule := $route.rules }}
+    - matches:
+        {{- range $rule.matches }}
+        - path:
+            type: {{ .pathType | default "PathPrefix" }}
+            value: {{ .path }}
+        {{- end }}
+      backendRefs:
+        - name: {{ include "generic-web-service-v2.fullname" $ }}
+          port: {{ $rule.port | default $.Values.service.port }}
+    {{- end }}
+{{- end }}
+{{- end }}
