@@ -1,0 +1,44 @@
+nameOverride: ""
+fullnameOverride: ""
+
+# 核心调度与模式
+schedule: "0 0 31 2 *"   # 默认纯占位符（2月31日永不触发，作为纯批处理模版）
+suspend: true            # 默认挂起，由云端吹哨或即席命令触发，杜绝双重调度冲突
+concurrencyPolicy: Forbid
+successfulJobsHistoryLimit: 3
+failedJobsHistoryLimit: 5
+restartPolicy: OnFailure
+
+# 容器镜像配置 (完全由具体业务注入)
+image:
+  repository: ""
+  tag: "latest"
+  digest: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+command: []
+args: []
+
+# 环境变量与机密注入
+env: []
+envFrom: []
+
+# 资源限制配额
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1Gi"
+  limits:
+    cpu: "2000m"
+    memory: "2Gi"
+
+# 节点调度与亲和性 (默认可锁定 nuc)
+nodeSelector:
+  kubernetes.io/hostname: "nuc"
+tolerations: []
+affinity: {}
+
+# 挂载卷
+volumes: []
+volumeMounts: []
