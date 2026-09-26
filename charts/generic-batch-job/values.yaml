@@ -8,6 +8,7 @@ concurrencyPolicy: Forbid
 successfulJobsHistoryLimit: 3
 failedJobsHistoryLimit: 5
 restartPolicy: OnFailure
+ttlSecondsAfterFinished: 60 # 🎯 K8s 原生优雅回收倒计时 (跑完留存 60 秒供 Fluent Bit 收集日志，随后内核自动销毁)
 
 # 容器镜像配置 (完全由具体业务注入)
 image:

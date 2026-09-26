@@ -15,6 +15,9 @@ spec:
       labels:
         {{- include "generic-batch-job.labels" . | nindent 8 }}
     spec:
+      {{- with .Values.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ . }}
+      {{- end }}
       template:
         metadata:
           labels:
