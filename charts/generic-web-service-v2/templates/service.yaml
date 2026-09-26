@@ -16,6 +16,9 @@ spec:
       port: {{ .Values.service.port }}
       targetPort: http
       protocol: TCP
+      {{- if and (eq .Values.service.type "NodePort") .Values.service.nodePort }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}
   selector:
     app.kubernetes.io/name: {{ include "generic-web-service-v2.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}

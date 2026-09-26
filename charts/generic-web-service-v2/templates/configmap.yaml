@@ -6,3 +6,14 @@ metadata:
 data:
   {{- toYaml .Values.configMap.data | nindent 2 }}
 {{- end }}
+{{- if .Values.extraConfigMaps }}
+{{- range $name, $cm := .Values.extraConfigMaps }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $name }}
+data:
+  {{- toYaml $cm.data | nindent 2 }}
+{{- end }}
+{{- end }}

@@ -16,6 +16,10 @@ spec:
       {{- with .Values.route.parentGatewayNamespace }}
       namespace: {{ . }}
       {{- end }}
+  {{- with .Values.route.hostnames }}
+  hostnames:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   rules:
     - matches:
         - path:
