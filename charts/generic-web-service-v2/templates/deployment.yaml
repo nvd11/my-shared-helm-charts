@@ -16,6 +16,10 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "generic-web-service-v2.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- if .Values.configMap.enabled }}
+      annotations:
+        checksum/config: {{ toYaml .Values.configMap.data | sha256sum }}
+      {{- end }}
     spec:
       {{- with .Values.image.pullSecrets }}
       imagePullSecrets:
