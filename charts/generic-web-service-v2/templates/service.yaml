@@ -11,6 +11,9 @@ metadata:
   {{- end }}
 spec:
   type: {{ .Values.service.type }}
+  {{- if .Values.service.publishNotReadyAddresses }}
+  publishNotReadyAddresses: {{ .Values.service.publishNotReadyAddresses }}
+  {{- end }}
   ports:
     - name: http
       port: {{ .Values.service.port }}
