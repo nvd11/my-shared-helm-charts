@@ -10,6 +10,15 @@ failedJobsHistoryLimit: 5
 restartPolicy: OnFailure
 ttlSecondsAfterFinished: 60 # 🎯 K8s 原生优雅回收倒计时 (跑完留存 60 秒供 Fluent Bit 收集日志，随后内核自动销毁)
 
+# DNS 解析优化（治本）：k8s 默认 ndots:5 会让 FQDN 先拼接搜索域逐个查询，
+# 叠加节点 Tailscale 搜索域 (tail9619f4.ts.net) 会触发 5s×2 次超时 (实测 10s)，
+# 进而导致 Java glibc getaddrinfo 超时 → UnknownHostException。
+# ndots:2 让带 ≥2 个点的 FQDN 优先按绝对域名解析 (~15ms)，彻底绕开坏的搜索域，同时加速 Gmail/R2 等所有外网解析。
+dnsConfig:
+  options:
+    - name: ndots
+      value: "2"
+
 # 容器镜像配置 (完全由具体业务注入)
 image:
   repository: ""
