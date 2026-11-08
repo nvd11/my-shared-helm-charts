@@ -32,6 +32,12 @@ nodeSelector: {}
 affinity: {}
 tolerations: []
 
+# DNS 解析优化：ndots:2 让带 ≥2 个点的 FQDN 优先按绝对域名解析，绕开 ndots:5 +
+# Tailscale 搜索域（tail9619f4.ts.net）导致的跨境域名解析超时 / UnknownHostException。
+# 默认留空不启用，需要时在具体 app 的 helm values 里覆盖 dnsConfig。
+dnsPolicy: ""
+dnsConfig: {}
+
 livenessProbe:
   enabled: true
   path: /
